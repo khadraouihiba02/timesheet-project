@@ -19,7 +19,7 @@ pipeline {
 
         stage('COMPILATION') {
             steps {
-                 sh 'mvn clean package -DskipTests'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh """
                 docker build -t ${DOCKERHUB_USER}/${DOCKERHUB_REPO}:${IMAGE_VERSION} .
-                echo '${DOCKERHUB_PASSWORD}' | docker login -u '${DOCKERHUB_USER}' --password-stdin
+                docker login -u 'khadraouihiba' -p 'hiba2003??'
                 docker push ${DOCKERHUB_USER}/${DOCKERHUB_REPO}:${IMAGE_VERSION}
                 """
             }
@@ -43,3 +43,4 @@ pipeline {
         }
     }
 }
+
