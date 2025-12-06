@@ -1,14 +1,16 @@
 pipeline {
     agent any
 
+   
     environment {
-        DOCKERHUB_USER = 'khadraouihiba'
-        DOCKERHUB_REPO = 'timesheet-khadraouihiba-4twin4'
-        IMAGE_VERSION  = '1.1'
-        K8S_NAMESPACE  = 'chap4'
-        K8S_DEPLOYMENT = 'timesheet-dep'
-        K8S_CONTAINER  = 'timesheet'
-    }
+       DOCKERHUB_USER = 'khadraouihiba'
+       DOCKERHUB_REPO = 'timesheet-khadraouihiba-4twin4'
+       IMAGE_VERSION  = '1.1'
+       K8S_NAMESPACE  = 'chap4'
+       K8S_DEPLOYMENT = 'timesheet-dep'
+       K8S_CONTAINER  = 'timesheet'
+       KUBECONFIG     = '/var/lib/jenkins/.kube/config'
+     }
 
     stages {
         stage('GIT') {
