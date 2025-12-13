@@ -1,0 +1,37 @@
+services:
+    mysqldb:
+        image: mysql:latest
+        container_name: mysql-timesheet-hiba
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_DATABASE: timesheet-devops-db
+        ports:
+            - "3306:3306"
+        volumes:
+            - timesheetvol:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppass"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        
+    timesheet:
+        container_name: timesheet-hibakhadraoui-4twin4
+        depends_on:
+            mysqldb:
+                condition: service_healthy
+        image: timesheet-khadraouihiba-4twin4:latest
+        restart: on-failure
+        ports:
+            - "8082:8082"
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/timesheet-devops-db?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+            SPRING_DATASOURCE_USERNAME: root
+            SPRING_DATASOURCE_PASSWORD: pass
+        stdin_open: true
+        tty: true
+
+volumes:
+    timesheetvol:
+
